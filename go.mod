@@ -1,4 +1,4 @@
-module github.com/blue-bird1/fofa-api
+module github.com/Earth-Online/fofa-api
 
 require (
 	github.com/PuerkitoBio/goquery v1.5.0

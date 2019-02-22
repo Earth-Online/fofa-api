@@ -105,23 +105,6 @@ func (u *User) GetPocCode(filename string) (code string, err error) {
 	return
 }
 
-func (u *User) GetMessages() (messages []Message, err error) {
-	reqUrl := GetApiUrl(ApiMessage)
-	queryString := reqUrl.Query()
-	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
-	body, err := u.ReqHtml(reqUrl)
-	if err != nil {
-		return
-	}
-
-	body.Find(".xx_c").Each(func(i int, selection *goquery.Selection) {
-		time := selection.Find(".xx_time").Text()
-		message := selection.Find("li").Text()
-		messages = append(messages, *NewMessage(time, message))
-	})
-	return
-}
-
 func (u *User) GetShopPocNum() (num int, err error) {
 	reqUrl := GetApiUrl(ApiShopSum)
 	queryString := reqUrl.Query()

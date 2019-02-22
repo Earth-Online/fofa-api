@@ -87,3 +87,21 @@ func TestUser_GetPocCode(t *testing.T) {
 	}
 	t.Log(resp)
 }
+
+func TestUser_SearchRule(t *testing.T) {
+	user := NewUser(email, token)
+	resp, err := user.SearchRule("i")
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(resp)
+}
+
+func TestUser_GetRuleInfo(t *testing.T) {
+	user := NewUser(email, token)
+	resp, err := user.GetRuleInfo("IdeaCMS")
+	if err != nil {
+		t.Error(err)
+	}
+	t.Log(resp)
+}

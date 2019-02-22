@@ -8,6 +8,8 @@ const (
 	ApiMy          = "/api/v1/info/my"
 	ApiExploitList = "/api/v1/user/exploits"
 	ApiMessage     = "/messages"
+	ApiSearchRule  = "/api/v1/exploit/rule_list"
+	ApiRuleInfo    = "/api/v1/exploit/rule_info"
 	ApiShop        = "/exploits/shop"
 	ApiShopSum     = "/exploits/all_exploits_count"
 	ApiSearch      = "/api/v1/search/all"

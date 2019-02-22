@@ -4,7 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
-	"github.com/blue-bird1/fofa-api/client"
+	"github.com/Earth-Online/fofa-api/client"
 	"github.com/google/subcommands"
 )
 

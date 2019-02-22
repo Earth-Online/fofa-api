@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"github.com/blue-bird1/fofa-api/cmd"
+	"github.com/Earth-Online/fofa-api/cmd"
 	"github.com/google/subcommands"
 	"os"
 )
