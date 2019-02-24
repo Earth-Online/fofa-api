@@ -1,10 +1,12 @@
 package client
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
-// Please don't submit it
-var email = "test@qq.com"
-var token = "123456"
+var email = os.Getenv("FOFA_EMAIL")
+var token = os.Getenv("FOFA_KEY")
 
 func TestNewUser(t *testing.T) {
 	fakeEmail := "fake"
@@ -24,7 +26,6 @@ func TestUser_Me(t *testing.T) {
 }
 
 func TestGetApiUrl(t *testing.T) {
-	//user := NewUser(email, token)
 	reqUrl := GetApiUrl(ApiMy)
 	if reqUrl.Scheme != "https" && reqUrl.Host != FofaServer && reqUrl.Path != ApiMy {
 		t.Error("error create api url")
