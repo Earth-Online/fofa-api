@@ -105,3 +105,20 @@ func TestUser_GetRuleInfo(t *testing.T) {
 	}
 	t.Log(resp)
 }
+
+func TestErrorMsg(t *testing.T) {
+	err := NewErrorMsg("test")
+	if err.Error != true {
+		t.Error("error shoule is true")
+	}
+	if err.Errmsg != "test" {
+		t.Error("errmsg shoule is 'test'")
+	}
+	if err.GetErrorMsg() == nil {
+		t.Error("GetErrorMsg shoule no is nil")
+		return
+	}
+	if err.GetErrorMsg().Error() != "test" {
+		t.Error("GetErrorMsg msg shoule  is 'test' ")
+	}
+}

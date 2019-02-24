@@ -1,8 +1,6 @@
 package client
 
 import (
-	"crypto/md5"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -11,7 +9,6 @@ import (
 	"net/http"
 	"net/url"
 	"strconv"
-	"strings"
 )
 
 // Fofa User
@@ -20,6 +17,19 @@ type User struct {
 	Token  string `json:"token, omitempty"`
 	Client *http.Client
 	UserInfo
+}
+
+// user info.. from  api/v1/info/my
+type UserInfo struct {
+	Avatar     string `json:"avatar"`
+	Fcoin      int    `json:"fcoin"`
+	FofaServer bool   `json:"fofa_server"`
+	CliVersion string `json:"fofacli_ver"`
+	IsVerified bool   `json:"is_verified"`
+	IsVip      bool   `json:"isvip"`
+	MessageNum int    `json:"message"`
+	UserName   string `json:"user_name"`
+	VipLever   int    `json:"vip_lever"`
 }
 
 func NewUser(email string, token string) *User {
@@ -69,42 +79,6 @@ func (u *User) Me() (err error) {
 	return
 }
 
-// get me poc
-func (u *User) GetPoc() (exploits ExploitResponse, err error) {
-	reqUrl := GetApiUrl(ApiExploitList)
-	queryString := reqUrl.Query()
-	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
-	body, err := u.Req(reqUrl)
-	if err != nil {
-		return
-	}
-	err = json.Unmarshal(body, &exploits)
-	return
-}
-
-func (u *User) GetPocCode(filename string) (code string, err error) {
-	reqUrl := GetApiUrl(ApiCode)
-	queryString := reqUrl.Query()
-	queryString.Add("filename", filename)
-	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
-	body, err := u.Req(reqUrl)
-	if err != nil {
-		return
-	}
-	expCode := CodeResponse{}
-	err = json.Unmarshal(body, &expCode)
-	if err != nil {
-		return
-	}
-	if expCode.Error {
-		err = expCode.GetError()
-		return
-	}
-	exp, err := base64.StdEncoding.DecodeString(expCode.Code)
-	code = string(exp)
-	return
-}
-
 func (u *User) GetShopPocNum() (num int, err error) {
 	reqUrl := GetApiUrl(ApiShopSum)
 	queryString := reqUrl.Query()
@@ -139,66 +113,4 @@ func (u *User) GetShopPoc(page int) (exploits []Exploit, err error) {
 		exploits = append(exploits, exp)
 	})
 	return
-}
-
-func (u *User) Search(query string, fields string, page int) (searchs SearchResponse, err error) {
-	reqUrl := GetApiUrl(ApiSearch)
-	queryString := reqUrl.Query()
-	queryString.Add("fields", fields)
-	queryString.Add("page", strconv.Itoa(page))
-	queryString.Add("qbase64", base64.StdEncoding.EncodeToString([]byte(query)))
-	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
-	body, err := u.Req(reqUrl)
-	if err != nil {
-		return
-	}
-	err = json.Unmarshal(body, &searchs)
-	return
-}
-
-func (u *User) PublishPoc(exp Exploit, code []byte) (err error) {
-	b64 := base64.StdEncoding.EncodeToString(code)
-	codeMd5 := md5.Sum([]byte("StFofart" + b64 + "EPrond"))
-	reqUrl := GetApiUrl(ApiPublish)
-	queryString := reqUrl.Query()
-	queryString.Add("title", exp.Name)
-	queryString.Add("filename", exp.Filename)
-	queryString.Add("product", exp.Product)
-	queryString.Add("homepage", exp.Homapage)
-	queryString.Add("level", strconv.Itoa(exp.Level))
-	queryString.Add("0day", strconv.FormatBool(exp.IsZeroDay))
-	queryString.Add("codemd5", string(codeMd5[:]))
-
-	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
-	resp, err := u.Client.Post(reqUrl.String(), "application/x-www-form-urlencoded", strings.NewReader(b64))
-	if err != nil {
-		return
-	}
-	data, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		return
-	}
-	ret := NewPublishResponse()
-	err = json.Unmarshal(data, &ret)
-	_ = resp.Body.Close()
-	if err != nil {
-		return err
-	}
-	if ret.Error {
-		return errors.New(ret.Errmsg)
-	}
-	return
-}
-
-// user info.. from  api/v1/info/my
-type UserInfo struct {
-	Avatar     string `json:"avatar"`
-	Fcoin      int    `json:"fcoin"`
-	FofaServer bool   `json:"fofa_server"`
-	CliVersion string `json:"fofacli_ver"`
-	IsVerified bool   `json:"is_verified"`
-	IsVip      bool   `json:"isvip"`
-	MessageNum int    `json:"message"`
-	UserName   string `json:"user_name"`
-	VipLever   int    `json:"vip_lever"`
 }

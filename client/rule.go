@@ -7,16 +7,21 @@ import (
 )
 
 type SearchRuleResponse struct {
-	Error bool     `json:"error"`
-	Data  []string `json:"data"`
+	ErrorMsg
+	// rule name
+	Data []string `json:"data"`
 }
 
+// 请求规则信息的服务器回复
 type RuleInfoResponse struct {
-	Error bool   `json:"error"`
-	Rule  string `json:"rule"`
-	Url   string `json:"url"`
+	ErrorMsg
+	// 查询规则细节
+	Rule string `json:"rule"`
+	// 规则名
+	Url string `json:"url"`
 }
 
+// SearchRule  receive search key return search response
 func (u *User) SearchRule(key string) (resp SearchRuleResponse, err error) {
 	reqUrl := GetApiUrl(ApiSearchRule)
 	queryString := reqUrl.Query()
@@ -34,6 +39,7 @@ func (u *User) SearchRule(key string) (resp SearchRuleResponse, err error) {
 	return
 }
 
+// SearchRule  receive rulename return rule info
 func (u *User) GetRuleInfo(name string) (rule RuleInfoResponse, err error) {
 	reqUrl := GetApiUrl(ApiRuleInfo)
 	queryString := reqUrl.Query()

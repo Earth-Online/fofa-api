@@ -17,6 +17,7 @@ const (
 	ApiPublish     = "/api/v1/exploit/publish"
 )
 
+//  GetApiUrl receive a api path,  get Full url
 func GetApiUrl(path string) (reqUrl url.URL) {
 	reqUrl = url.URL{
 		Scheme: "https",

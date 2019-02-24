@@ -2,6 +2,7 @@ package client
 
 import "github.com/PuerkitoBio/goquery"
 
+// notice message
 type Message struct {
 	Time string `json:"time"`
 	Msg  string `json:"msg"`
@@ -14,6 +15,7 @@ func NewMessage(time string, msg string) *Message {
 	}
 }
 
+// GetMessages get you notice message
 func (u *User) GetMessages() (messages []Message, err error) {
 	reqUrl := GetApiUrl(ApiMessage)
 	queryString := reqUrl.Query()
