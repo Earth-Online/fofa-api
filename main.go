@@ -14,6 +14,7 @@ func main() {
 	//cfr.Register(subcommands.CommandsCommand(), "")
 	cfr.Register(&cmd.ListCmd{}, "")
 	cfr.Register(&cmd.DownloadCmd{}, "")
+	cfr.Register(&cmd.MeCmd{}, "")
 	_ = cmd.FlagSet.Parse(os.Args[1:])
 	ctx := context.Background()
 	os.Exit(int(cfr.Execute(ctx)))
