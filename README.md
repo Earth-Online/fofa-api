@@ -1,6 +1,6 @@
 # fofa-api : fofa vip api
 
-## Overview [![GoDoc](https://godoc.org/github.com/Earth-Online/fofa-api?status.svg)](https://godoc.org/github.com/Earth-Online/fofa-api)
+## Overview [![GoDoc](https://godoc.org/github.com/Earth-Online/fofa-api?status.svg)](https://godoc.org/github.com/Earth-Online/fofa-api/client) [![Build Status](https://travis-ci.org/Earth-Online/fofa-api.svg?branch=master)](https://travis-ci.org/Earth-Online/fofa-api)
 
 提供了fofa会员的api,如列出自己所有poc,下载poc文件, 提交poc,搜索poc
 
@@ -20,10 +20,9 @@ import (
 )
 
 
-var email = "test@qq.com"
-var token = "123456"
-
 func main(){
+	var email = "test@qq.com"
+    var token = "123456"
     user := client.NewUser(email, token)
     err := user.Me()
     if err != nil{

@@ -1,0 +1,18 @@
+language: go
+
+go:
+  - 1.11.x
+  - master
+
+os:
+  - linux
+
+env:
+  global:
+    - GO111MODULE=on
+script:
+  - go build
+  - go test ./client
+
+notifications:
+  email: false
