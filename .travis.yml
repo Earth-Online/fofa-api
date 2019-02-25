@@ -7,6 +7,12 @@ go:
 os:
   - linux
 
+env:
+  global:
+    - GO111MODULE=on
 script:
-  - env GO111MODULE=on go build
-  - env GO111MODULE=on go test ./client
+  - go build
+  - go test ./client
+
+notifications:
+  email: false
