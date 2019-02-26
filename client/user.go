@@ -27,7 +27,7 @@ type UserInfo struct {
 	Avatar string `json:"avatar"`
 	// f coin num
 	Fcoin int `json:"fcoin"`
-	// fofa domain
+	//
 	FofaServer bool `json:"fofa_server"`
 	// cli version
 	CliVersion string `json:"fofacli_ver"`
