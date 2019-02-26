@@ -8,6 +8,7 @@ type Message struct {
 	Msg  string `json:"msg"`
 }
 
+// new message
 func NewMessage(time string, msg string) *Message {
 	return &Message{
 		Time: time,

@@ -6,13 +6,14 @@ import (
 	"time"
 )
 
+// search rule result
 type SearchRuleResponse struct {
 	ErrorMsg
 	// rule name
 	Data []string `json:"data"`
 }
 
-// 请求规则信息的服务器回复
+// rule info result
 type RuleInfoResponse struct {
 	ErrorMsg
 	// 查询规则细节

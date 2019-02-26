@@ -8,12 +8,18 @@ import (
 
 type Search []string
 
+// fofa search  result
 type SearchResponse struct {
 	ErrorMsg
-	Mode    string   `json:"mode"`
-	Query   string   `json:"query"`
-	Page    int      `json:"page"`
-	Size    int      `json:"size"`
+	// search mode
+	Mode string `json:"mode"`
+	// query keyword
+	Query string `json:"query"`
+	// query page num
+	Page int `json:"page"`
+	// query total num
+	Size int `json:"size"`
+	// query result
 	Results []Search `json:"results"`
 }
 
