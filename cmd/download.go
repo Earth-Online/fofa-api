@@ -44,6 +44,7 @@ func (d *DownloadCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...inte
 		fmt.Print(err)
 		return subcommands.ExitFailure
 	}
+
 	output, err := os.OpenFile(d.outputfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, os.ModePerm)
 	if err != nil {
 		fmt.Print(err)

@@ -22,6 +22,11 @@ func (*ListCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...interface{
 		fmt.Print(err)
 		return subcommands.ExitFailure
 	}
+	if pocs.GetErrorMsg() != nil {
+		fmt.Print(pocs.GetErrorMsg())
+		return subcommands.ExitFailure
+	}
+
 	fmt.Printf("------%s\n", client.PUBLISH)
 	for _, value := range pocs.Published {
 		fmt.Printf("%s-%s\n", value.Name, value.Filename)
