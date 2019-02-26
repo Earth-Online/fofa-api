@@ -38,6 +38,10 @@ func (c *RuleCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...interfac
 		fmt.Print(err)
 		return subcommands.ExitFailure
 	}
+	if rules.GetErrorMsg() != nil {
+		fmt.Print(rules.GetErrorMsg())
+		return subcommands.ExitFailure
+	}
 	fmt.Print("-------search result\n")
 	for _, value := range rules.Data {
 		fmt.Printf("%s\n", value)

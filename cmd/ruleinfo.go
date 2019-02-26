@@ -38,6 +38,10 @@ func (c *RuleInfoCmd) Execute(ctx context.Context, f *flag.FlagSet, args ...inte
 		fmt.Print(err)
 		return subcommands.ExitFailure
 	}
+	if info.GetErrorMsg() != nil {
+		fmt.Print(info.GetErrorMsg())
+		return subcommands.ExitFailure
+	}
 	fmt.Printf("%s %s", info.Rule, info.Url)
 	return subcommands.ExitSuccess
 }
