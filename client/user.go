@@ -38,9 +38,9 @@ type UserInfo struct {
 	// unread message num
 	MessageNum int `json:"message"`
 	// username
-	UserName string `json:"user_name"`
+	UserName string `json:"username"`
 	// viplevel
-	VipLever int `json:"vip_lever"`
+	VipLevel int `json:"vip_level"`
 }
 
 // NewUser Get an a instance from email and token
