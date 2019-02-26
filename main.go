@@ -17,6 +17,7 @@ func main() {
 	cfr.Register(&cmd.MeCmd{}, "")
 	cfr.Register(&cmd.MsgCmd{}, "")
 	cfr.Register(&cmd.RuleCmd{}, "")
+	cfr.Register(&cmd.RuleInfoCmd{}, "")
 	_ = cmd.FlagSet.Parse(os.Args[1:])
 	ctx := context.Background()
 	os.Exit(int(cfr.Execute(ctx)))
