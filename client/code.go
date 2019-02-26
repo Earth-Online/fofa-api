@@ -20,6 +20,7 @@ func (c *CodeResponse) GetError() error {
 	return nil
 }
 
+// download you poc code
 func (u *User) GetPocCode(filename string) (code string, err error) {
 	reqUrl := GetApiUrl(ApiCode)
 	queryString := reqUrl.Query()

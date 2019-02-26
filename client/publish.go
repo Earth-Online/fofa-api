@@ -14,10 +14,6 @@ type PublishResponse struct {
 	ErrorMsg
 }
 
-func NewPublishResponse(errorMsg ErrorMsg) *PublishResponse {
-	return &PublishResponse{ErrorMsg: errorMsg}
-}
-
 //  PublishPoc will publish you poc
 func (u *User) PublishPoc(exp Exploit, code []byte) (err error) {
 	b64 := base64.StdEncoding.EncodeToString(code)

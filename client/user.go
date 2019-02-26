@@ -13,30 +13,43 @@ import (
 
 // Fofa User
 type User struct {
-	Email  string `json:"email"`
+	// account email
+	Email string `json:"email"`
+	// account api token
 	Token  string `json:"token, omitempty"`
 	Client *http.Client
 	UserInfo
 }
 
-// user info.. from  api/v1/info/my
+// user info
 type UserInfo struct {
-	Avatar     string `json:"avatar"`
-	Fcoin      int    `json:"fcoin"`
-	FofaServer bool   `json:"fofa_server"`
+	// user avatar
+	Avatar string `json:"avatar"`
+	// f coin num
+	Fcoin int `json:"fcoin"`
+	// fofa domain
+	FofaServer bool `json:"fofa_server"`
+	// cli version
 	CliVersion string `json:"fofacli_ver"`
-	IsVerified bool   `json:"is_verified"`
-	IsVip      bool   `json:"isvip"`
-	MessageNum int    `json:"message"`
-	UserName   string `json:"user_name"`
-	VipLever   int    `json:"vip_lever"`
+	// is verify user?
+	IsVerified bool `json:"is_verified"`
+	// is vip user?
+	IsVip bool `json:"isvip"`
+	// unread message num
+	MessageNum int `json:"message"`
+	// username
+	UserName string `json:"user_name"`
+	// viplevel
+	VipLever int `json:"vip_lever"`
 }
 
+// NewUser Get an a instance from email and token
 func NewUser(email string, token string) *User {
 	u := &User{Email: email, Token: token, Client: &http.Client{}}
 	return u
 }
 
+// AddQuery will add authentication parameter
 func (u *User) AddQuery(query url.Values) (value url.Values) {
 	query.Add("email", u.Email)
 	query.Add("key", u.Token)
@@ -44,6 +57,7 @@ func (u *User) AddQuery(query url.Values) (value url.Values) {
 	return query
 }
 
+// Req make a request from the url
 func (u *User) Req(reqUrl url.URL) (data []byte, err error) {
 	resp, err := u.Client.Get(reqUrl.String())
 	if err != nil {
@@ -58,6 +72,7 @@ func (u *User) Req(reqUrl url.URL) (data []byte, err error) {
 	return
 }
 
+// Req make a request from the url, then Convert to a goquery document
 func (u *User) ReqHtml(reqUrl url.URL) (doc *goquery.Document, err error) {
 	resp, err := u.Client.Get(reqUrl.String())
 	if err != nil {
@@ -67,6 +82,7 @@ func (u *User) ReqHtml(reqUrl url.URL) (doc *goquery.Document, err error) {
 	return
 }
 
+// Me will get user info
 func (u *User) Me() (err error) {
 	reqUrl := GetApiUrl(ApiMy)
 	queryString := reqUrl.Query()
@@ -79,6 +95,7 @@ func (u *User) Me() (err error) {
 	return
 }
 
+// get shop poc total
 func (u *User) GetShopPocNum() (num int, err error) {
 	reqUrl := GetApiUrl(ApiShopSum)
 	queryString := reqUrl.Query()
@@ -91,6 +108,7 @@ func (u *User) GetShopPocNum() (num int, err error) {
 	return
 }
 
+// get number of pages exploit info
 func (u *User) GetShopPoc(page int) (exploits []Exploit, err error) {
 	reqUrl := GetApiUrl(ApiShop)
 	queryString := reqUrl.Query()
