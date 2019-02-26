@@ -1,12 +1,14 @@
 package client
 
 import (
+	"net/url"
 	"os"
 	"testing"
 )
 
 var email = os.Getenv("FOFA_EMAIL")
 var token = os.Getenv("FOFA_KEY")
+var user = NewUser(email, token)
 
 func TestNewUser(t *testing.T) {
 	fakeEmail := "fake"
@@ -17,18 +19,47 @@ func TestNewUser(t *testing.T) {
 	}
 }
 
-func TestUser_Me(t *testing.T) {
-	user := NewUser(email, token)
-	err := user.Me()
-	if err != nil {
-		t.Error(err)
-	}
-}
-
 func TestGetApiUrl(t *testing.T) {
 	reqUrl := GetApiUrl(ApiMy)
 	if reqUrl.Scheme != "https" && reqUrl.Host != FofaServer && reqUrl.Path != ApiMy {
 		t.Error("error create api url")
+	}
+}
+
+func TestUser_Req(t *testing.T) {
+	requrl, _ := url.Parse("http://example.org")
+	ret, err := user.Req(*requrl)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if len(ret) == 0 {
+		t.Error("not get data")
+	}
+	return
+}
+
+func TestUser_ReqHtml(t *testing.T) {
+	requrl, _ := url.Parse("http://example.org")
+	ret, err := user.ReqHtml(*requrl)
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if ret.Size() == 0 {
+		t.Error("not get html")
+		return
+	}
+}
+
+func TestUser_Me(t *testing.T) {
+	err := user.Me()
+	if err != nil {
+		t.Error(err)
+		return
+	}
+	if user.Avatar == "" || user.UserName == "" || user.CliVersion == "" {
+		t.Error("error get user info")
 	}
 }
 
@@ -37,20 +68,19 @@ func TestUser_GetPoc(t *testing.T) {
 	resp, err := user.GetPoc()
 	if err != nil {
 		t.Error(err)
+		return
 	}
-	if resp.Error {
-		t.Error("error get poc list")
+	if resp.GetErrorMsg() != nil {
+		t.Error(resp.GetErrorMsg())
 	}
-	t.Log(resp)
 }
 
 func TestUser_GetMessages(t *testing.T) {
 	user := NewUser(email, token)
-	resp, err := user.GetMessages()
+	_, err := user.GetMessages()
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(resp)
 }
 
 func TestUser_GetShopPocNum(t *testing.T) {
@@ -59,7 +89,9 @@ func TestUser_GetShopPocNum(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(resp)
+	if resp == 0 {
+		t.Error("not get shop num")
+	}
 }
 
 func TestUser_GetShopPoc(t *testing.T) {
@@ -68,7 +100,9 @@ func TestUser_GetShopPoc(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(resp)
+	if len(resp) == 0 {
+		t.Error("error get shop poc")
+	}
 }
 
 func TestUser_Search(t *testing.T) {
@@ -81,12 +115,13 @@ func TestUser_Search(t *testing.T) {
 }
 
 func TestUser_GetPocCode(t *testing.T) {
-	user := NewUser(email, token)
 	resp, err := user.GetPocCode("phpyun_v4_install_getshell.rb")
 	if err != nil {
 		t.Error(err)
 	}
-	t.Log(resp)
+	if resp == "" {
+		t.Error("error download poc ")
+	}
 }
 
 func TestUser_SearchRule(t *testing.T) {
