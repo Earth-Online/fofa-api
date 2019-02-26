@@ -23,12 +23,23 @@ type SearchResponse struct {
 	Results []Search `json:"results"`
 }
 
+// fofa search limit
+const (
+	// Member search Free quota
+	MemberLimit = 100
+	// 1 Foin = 10000
+	FcoinToSearch = 10000
+	// Vip search Free quota
+	VipLimit = 10000
+)
+
 // Search receive a query, fields, pagenum, return search results
-func (u *User) Search(query string, fields string, page int) (searchs SearchResponse, err error) {
+func (u *User) Search(query string, fields string, page int, limit int) (searchs SearchResponse, err error) {
 	reqUrl := GetApiUrl(ApiSearch)
 	queryString := reqUrl.Query()
 	queryString.Add("fields", fields)
 	queryString.Add("page", strconv.Itoa(page))
+	queryString.Add("limit", strconv.Itoa(limit))
 	queryString.Add("qbase64", base64.StdEncoding.EncodeToString([]byte(query)))
 	reqUrl.RawQuery = u.AddQuery(queryString).Encode()
 	body, err := u.Req(reqUrl)

@@ -73,7 +73,7 @@ func TestUser_GetShopPoc(t *testing.T) {
 
 func TestUser_Search(t *testing.T) {
 	user := NewUser(email, token)
-	resp, err := user.Search("domain=\"nosec.org\"", "domain,host,ip,port,title,country,city", 1)
+	resp, err := user.Search("domain=\"nosec.org\"", "domain,host,ip,port,title,country,city", 1, MemberLimit)
 	if err != nil {
 		t.Error(err)
 	}
