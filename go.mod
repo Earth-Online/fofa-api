@@ -1,6 +1,11 @@
 module github.com/Earth-Online/fofa-api
 
 require (
-	github.com/PuerkitoBio/goquery v1.5.0
+	github.com/PuerkitoBio/goquery v1.8.1
 	github.com/google/subcommands v1.0.1
+)
+
+require (
+	github.com/andybalholm/cascadia v1.3.1 // indirect
+	golang.org/x/net v0.7.0 // indirect
 )
